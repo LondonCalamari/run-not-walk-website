@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { Mail, MapPin, Clock, Send, CheckCircle } from "lucide-react";
+import { Mail, MapPin, Clock, Send, CheckCircle, AlertCircle } from "lucide-react";
 
 const projectTypes = [
   "AI Image Generation",
@@ -14,6 +14,8 @@ const projectTypes = [
   "Other",
 ];
 
+type FormStatus = "idle" | "loading" | "success" | "error";
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -22,13 +24,33 @@ export default function ContactPage() {
     projectType: "",
     message: "",
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    setStatus("loading");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Something went wrong.");
+      }
+
+      setStatus("success");
+      setFormData({ name: "", email: "", company: "", projectType: "", message: "" });
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    }
   };
 
   const handleChange = (
@@ -54,8 +76,8 @@ export default function ContactPage() {
               Get in Touch
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Ready to start your next project? We'd love to hear from you.
-              Fill out the form below and we'll get back to you within 24 hours.
+              Ready to start your next project? We&apos;d love to hear from you.
+              Fill out the form below and we&apos;ll get back to you within 24 hours.
             </p>
           </motion.div>
         </div>
@@ -72,11 +94,11 @@ export default function ContactPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Let's Create Something Amazing
+                Let&apos;s Create Something Amazing
               </h2>
               <p className="text-gray-600 mb-8 leading-relaxed">
                 Whether you have a specific project in mind or just want to explore
-                what's possible with AI-powered creativity, we're here to help.
+                what&apos;s possible with AI-powered creativity, we&apos;re here to help.
               </p>
 
               <div className="space-y-6">
@@ -139,7 +161,7 @@ export default function ContactPage() {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <div className="bg-white p-8 md:p-10 rounded-3xl shadow-sm">
-                {isSubmitted ? (
+                {status === "success" ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -152,11 +174,18 @@ export default function ContactPage() {
                       Message Sent!
                     </h3>
                     <p className="text-gray-600">
-                      Thank you for reaching out. We'll be in touch soon.
+                      Thank you for reaching out. We&apos;ll be in touch within 24 hours.
                     </p>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
+                    {status === "error" && (
+                      <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-xl">
+                        <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-red-700">{errorMessage}</p>
+                      </div>
+                    )}
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label
@@ -172,7 +201,8 @@ export default function ContactPage() {
                           required
                           value={formData.name}
                           onChange={handleChange}
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                          disabled={status === "loading"}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all disabled:opacity-60"
                           placeholder="Your name"
                         />
                       </div>
@@ -190,7 +220,8 @@ export default function ContactPage() {
                           required
                           value={formData.email}
                           onChange={handleChange}
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                          disabled={status === "loading"}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all disabled:opacity-60"
                           placeholder="you@company.com"
                         />
                       </div>
@@ -209,7 +240,8 @@ export default function ContactPage() {
                         name="company"
                         value={formData.company}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                        disabled={status === "loading"}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all disabled:opacity-60"
                         placeholder="Your company (optional)"
                       />
                     </div>
@@ -226,7 +258,8 @@ export default function ContactPage() {
                         name="projectType"
                         value={formData.projectType}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white"
+                        disabled={status === "loading"}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white disabled:opacity-60"
                       >
                         <option value="">Select a project type (optional)</option>
                         {projectTypes.map((type) => (
@@ -251,17 +284,27 @@ export default function ContactPage() {
                         rows={5}
                         value={formData.message}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all resize-none"
+                        disabled={status === "loading"}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all resize-none disabled:opacity-60"
                         placeholder="Tell us about your project..."
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full flex items-center justify-center space-x-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors group"
+                      disabled={status === "loading"}
+                      className="w-full flex items-center justify-center space-x-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors group disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span>Send Message</span>
-                      <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      {status === "loading" ? (
+                        <>
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Send Message</span>
+                          <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </>
+                      )}
                     </button>
                   </form>
                 )}
