@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* ── Brand Fonts ── */
+  --font-brand: var(--font-bebas-neue), system-ui, sans-serif;
+  --font-editorial: var(--font-instrument-serif), Georgia, serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-mono: var(--font-dm-mono), monospace;
+
+  /* ── Brand Colors ── */
+  --color-void: #080808;
+  --color-ember: #FE7F2D;
+  --color-bone: #F5F4F0;
+  --color-blood: #FF2D2D;
+  --color-dim: #6B6560;
+  --color-edge: #1F1C1A;
+  --color-surface: #0F0D0B;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #F5F4F0;
+  color: #1A1614;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Perspective for 3D transforms in hero */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Selection */
+::selection {
+  background-color: #FE7F2D;
+  color: #080808;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: #F5F4F0; }
+::-webkit-scrollbar-thumb { background: #D5D1CB; }
+::-webkit-scrollbar-thumb:hover { background: #6B6560; }
+
+/* Marquee keyframe */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
