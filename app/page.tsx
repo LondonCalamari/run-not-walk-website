@@ -48,56 +48,56 @@ const services = [
   {
     num: "01",
     title: "AI PRODUCT PHOTOGRAPHY",
-    body: "One product. Twenty scenes. Zero studio visits. We create scroll-stopping imagery from a single brief — delivered in 48 hours.",
+    body: "One product. Fifteen rooms. Zero studio visits. Photorealistic furniture imagery from a single brief — delivered in 14 business days.",
     tag: "Photography",
   },
   {
     num: "02",
     title: "VIDEO & MOTION",
-    body: "Campaign-ready video content. From concept to delivery in 48 hours. No crew. No location. No excuses.",
+    body: "Campaign-ready video content. From concept to delivery in 7 business days. No crew. No location. No waiting.",
     tag: "Video",
   },
   {
     num: "03",
     title: "BRAND CREATIVE",
-    body: "Logos, visual systems and brand assets built for the AI era. Priced for the real world — not the agency world.",
-    tag: "Branding",
+    body: "Visual content systems built for the furniture industry. Shot once, used everywhere — social, ads, e-commerce.",
+    tag: "Creative",
   },
 ];
 
 const work = [
   {
-    title: "Lumio Skincare",
+    title: "King Living",
     category: "AI Product Photography",
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80",
+    image: "/portfolio/King Living/Wide otherside of bed.png",
   },
   {
-    title: "Volta Audio",
-    category: "Brand Identity",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+    title: "Jardan",
+    category: "AI Product Photography",
+    image: "/portfolio/Jardan/Wide 45 Deg.png",
   },
   {
-    title: "Drift Coffee Co.",
-    category: "Creative Campaign",
-    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+    title: "Eva",
+    category: "AI Product Photography",
+    image: "/portfolio/Eva/45 Deg Wide.png",
   },
 ];
 
 const stats = [
-  { num: "48", suffix: "HRS", label: "Standard delivery" },
-  { num: "20+", suffix: "", label: "Images per brief" },
-  { num: "100%", suffix: "", label: "AI-powered" },
+  { num: "14", suffix: "D", label: "Business day delivery (Launch)" },
+  { num: "7", suffix: "D", label: "Business day delivery (Studio)" },
+  { num: "50+", suffix: "", label: "Scenes per month" },
   { num: "0", suffix: "", label: "Studios needed" },
 ];
 
 const marqueeItems = [
   "RUN NOT WALK",
   "AI CREATIVE STUDIO",
-  "AUSTRALIA",
-  "48HR DELIVERY",
+  "FURNITURE & HOMEWARES",
+  "14-DAY DELIVERY",
   "NO STUDIOS",
-  "NO WAITING",
-  "BOUTIQUE BRANDS",
+  "PHOTOREALISTIC OUTPUT",
+  "AUSTRALIAN BRANDS",
   "PREMIUM CREATIVE",
 ];
 
@@ -249,7 +249,7 @@ export default function Home() {
               The proposition
             </p>
             <h2 className="font-brand text-[clamp(5rem,13vw,14rem)] leading-[0.87] tracking-[0.02em] text-[#080808] mb-10">
-              BRIEF IN.<br />CAMPAIGN<br />OUT. 48<br />HOURS.
+              BRIEF IN.<br />CAMPAIGN<br />OUT. 14<br />DAYS.
             </h2>
             <p className="text-sm mb-16 max-w-md leading-[1.85]"
                style={{ color: "rgba(8,8,8,0.6)" }}>
@@ -309,12 +309,12 @@ export default function Home() {
               className="flex flex-col justify-center"
             >
               <p className="font-editorial italic text-[clamp(1.1rem,1.8vw,1.6rem)] leading-[1.45] text-[#1A1614] mb-6 border-l-2 border-[#FE7F2D] pl-5">
-                &ldquo;We exist to give boutique brands the visual firepower of a $500K creative budget — without the photoshoot.&rdquo;
+                &ldquo;We exist to give furniture brands the visual firepower of a $500K creative budget — without the photoshoot.&rdquo;
               </p>
               <p className="text-sm text-[#6B6560] leading-[1.85] mb-8">
-                Run Not Walk is an AI creative agency producing premium product photography, video and creator content at a fraction of traditional costs — and in a fraction of traditional timelines.
+                Run Not Walk is an AI creative studio producing premium furniture and homewares photography at a fraction of traditional costs — and in a fraction of traditional timelines.
                 <br /><br />
-                We are the secret weapon boutique brands didn&apos;t know existed. Your competitors don&apos;t know about us yet.
+                No studio bookings. No model releases. No three-week waits. Just photorealistic product imagery, delivered in 14 business days.
               </p>
               <Link
                 href="/about"
