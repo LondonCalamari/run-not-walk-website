@@ -4,26 +4,61 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { Mail, MapPin, Clock, Send, CheckCircle, AlertCircle } from "lucide-react";
-
-const projectTypes = [
-  "AI Image Generation",
-  "Brand Identity",
-  "Creative Campaign",
-  "Video Content",
-  "Other",
-];
+import { ArrowUpRight, Send, CheckCircle, AlertCircle } from "lucide-react";
 
 type FormStatus = "idle" | "loading" | "success" | "error";
+
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const budgetOptions = [
+  "Under $1,000/mo",
+  "$1,000 – $2,500/mo",
+  "$2,500 – $5,000/mo",
+  "$5,000 – $10,000/mo",
+  "$10,000+/mo",
+  "Not sure yet",
+];
+
+const productOptions = [
+  "Just 1 product",
+  "2–5 products",
+  "6–15 products",
+  "16–50 products",
+  "50+ products",
+];
+
+const timelineOptions = [
+  "ASAP — we have an urgent need",
+  "Within the next month",
+  "1–3 months",
+  "3+ months from now",
+  "Just exploring for now",
+];
+
+const foundUsOptions = [
+  "Google search",
+  "Instagram",
+  "LinkedIn",
+  "Referral",
+  "Podcast or YouTube",
+  "Other",
+];
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    website: "",
     company: "",
-    projectType: "",
+    projectType: "AI Furniture Photography",
+    products: "",
+    budget: "",
+    timeline: "",
+    currentPhotography: "",
     message: "",
+    foundUs: "",
   });
+
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -46,269 +81,407 @@ export default function ContactPage() {
       }
 
       setStatus("success");
-      setFormData({ name: "", email: "", company: "", projectType: "", message: "" });
+      setFormData({
+        name: "",
+        email: "",
+        website: "",
+        company: "",
+        projectType: "AI Furniture Photography",
+        products: "",
+        budget: "",
+        timeline: "",
+        currentPhotography: "",
+        message: "",
+        foundUs: "",
+      });
     } catch (err) {
       setStatus("error");
-      setErrorMessage(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setErrorMessage(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
+      );
     }
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
-    <main className="min-h-screen bg-[#FAFAFA]">
+    <main className="bg-[#F5F4F0] min-h-screen">
       <Navigation />
 
-      {/* Header */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      {/* ── HEADER ────────────────────────────────────────────────────────── */}
+      <section className="pt-40 pb-16 px-6 lg:px-16 border-b border-[#D5D1CB]">
+        <div className="max-w-[1400px] mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
+            transition={{ duration: 0.7, ease: EASE }}
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              Get in Touch
+            <div className="flex items-center gap-4 mb-10">
+              <span className="font-mono text-[0.6rem] tracking-[0.28em] uppercase text-[#FE7F2D]">
+                Let&apos;s Talk
+              </span>
+              <span className="w-10 h-px bg-[#D5D1CB]" />
+            </div>
+            <h1 className="font-brand text-[clamp(5rem,13vw,14rem)] leading-[0.87] tracking-[0.02em] text-[#1A1614] mb-6">
+              START<br />HERE.
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Ready to start your next project? We&apos;d love to hear from you.
-              Fill out the form below and we&apos;ll get back to you within 24 hours.
+            <p className="font-editorial italic text-[clamp(1rem,1.5vw,1.4rem)] text-[#6B6560] max-w-sm leading-[1.5]">
+              First response within 24 hours. Real answers, not sales scripts.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="pb-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Contact Info */}
+      {/* ── FORM ───────────────────────────────────────────────────────────── */}
+      <section className="py-16 px-6 lg:px-16">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_480px] gap-16 lg:gap-24">
+
+            {/* Left — context copy */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: EASE }}
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Let&apos;s Create Something Amazing
+              <h2 className="font-brand text-[clamp(2.5rem,5vw,5rem)] leading-[0.9] tracking-[0.03em] text-[#1A1614] mb-6">
+                TELL US<br />ABOUT YOUR<br />BRAND.
               </h2>
-              <p className="text-gray-600 mb-8 leading-relaxed">
-                Whether you have a specific project in mind or just want to explore
-                what&apos;s possible with AI-powered creativity, we&apos;re here to help.
+              <p className="text-sm text-[#6B6560] leading-[1.85] mb-10 max-w-sm">
+                The more context you give us upfront, the more useful our first
+                reply will be. No forms for form&apos;s sake — every question
+                helps us understand if we&apos;re the right fit.
               </p>
 
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-600/10 flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <a
-                      href="mailto:hello@runnotwalk.studio"
-                      className="text-gray-600 hover:text-blue-600 transition-colors"
+              {/* What we need */}
+              <div className="border-t border-[#D5D1CB] pt-8 mb-10">
+                <p className="font-mono text-[0.56rem] tracking-[0.22em] uppercase text-[#FE7F2D] mb-4">
+                  Before you fill this in
+                </p>
+                <ul className="space-y-3">
+                  {[
+                    "A link to your website or Instagram",
+                    "Your product catalogue size (even an estimate)",
+                    "Your current photography setup (in-house, agency, none)",
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-3 text-sm text-[#6B6560]"
                     >
-                      hello@runnotwalk.studio
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-600/10 flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">
-                      Response Time
-                    </h3>
-                    <p className="text-gray-600">
-                      We typically respond within 24 hours
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-600/10 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Location</h3>
-                    <p className="text-gray-600">
-                      Remote-first, working with clients globally
-                    </p>
-                  </div>
-                </div>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FE7F2D] mt-1.5 flex-shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              {/* Decorative Image */}
-              <div className="mt-12 aspect-video rounded-2xl overflow-hidden bg-gray-200">
-                <img
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80"
-                  alt="Creative team"
-                  className="w-full h-full object-cover"
-                />
+              {/* Pricing context */}
+              <div className="bg-[#EAE8E3] p-8">
+                <p className="font-mono text-[0.56rem] tracking-[0.22em] uppercase text-[#FE7F2D] mb-4">
+                  Our pricing
+                </p>
+                <div className="space-y-4">
+                  <div>
+                    <p className="font-brand text-lg text-[#1A1614]">Launch — $2,500/mo</p>
+                    <p className="text-xs text-[#6B6560] mt-1">
+                      3 products · 15 scenes · 14-day turnaround
+                    </p>
+                  </div>
+                  <div className="border-t border-[#D5D1CB] pt-4">
+                    <p className="font-brand text-lg text-[#1A1614]">Studio — $6,000/mo</p>
+                    <p className="text-xs text-[#6B6560] mt-1">
+                      10 products · 40 scenes · 7-day turnaround · Campaign Pack add-on
+                    </p>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
-            {/* Contact Form */}
+            {/* Right — form */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
+              initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
             >
-              <div className="bg-white p-8 md:p-10 rounded-3xl shadow-sm">
-                {status === "success" ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="flex flex-col items-center justify-center py-12 text-center"
-                  >
-                    <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4">
-                      <CheckCircle className="w-8 h-8 text-green-600" />
+              {status === "success" ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, ease: EASE }}
+                  className="bg-[#EAE8E3] border border-[#D5D1CB] p-10 text-center"
+                >
+                  <div className="w-14 h-14 rounded-full bg-[#FE7F2D] flex items-center justify-center mx-auto mb-5">
+                    <CheckCircle className="w-7 h-7 text-[#080808]" />
+                  </div>
+                  <h3 className="font-brand text-3xl text-[#1A1614] mb-3">
+                    MESSAGE IN.
+                  </h3>
+                  <p className="text-sm text-[#6B6560] leading-[1.7]">
+                    We&apos;ve got it. Expect a reply within 24 hours —
+                    usually much faster. Check your inbox at{" "}
+                    <span className="text-[#1A1614] font-medium">
+                      {formData.email || "your email"}
+                    </span>
+                    .
+                  </p>
+                </motion.div>
+              ) : (
+                <form
+                  onSubmit={handleSubmit}
+                  className="bg-[#EAE8E3] border border-[#D5D1CB] p-8 md:p-10 space-y-5"
+                >
+                  {status === "error" && (
+                    <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-xl">
+                      <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                      <p className="text-sm text-red-700">{errorMessage}</p>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                      Message Sent!
-                    </h3>
-                    <p className="text-gray-600">
-                      Thank you for reaching out. We&apos;ll be in touch within 24 hours.
-                    </p>
-                  </motion.div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    {status === "error" && (
-                      <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-xl">
-                        <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                        <p className="text-sm text-red-700">{errorMessage}</p>
-                      </div>
-                    )}
+                  )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label
-                          htmlFor="name"
-                          className="block text-sm font-medium text-gray-700 mb-2"
-                        >
-                          Name *
-                        </label>
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          required
-                          value={formData.name}
-                          onChange={handleChange}
-                          disabled={status === "loading"}
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all disabled:opacity-60"
-                          placeholder="Your name"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="email"
-                          className="block text-sm font-medium text-gray-700 mb-2"
-                        >
-                          Email *
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          required
-                          value={formData.email}
-                          onChange={handleChange}
-                          disabled={status === "loading"}
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all disabled:opacity-60"
-                          placeholder="you@company.com"
-                        />
-                      </div>
-                    </div>
-
+                  {/* Name + Email */}
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label
-                        htmlFor="company"
-                        className="block text-sm font-medium text-gray-700 mb-2"
-                      >
-                        Company
+                      <label className="block font-mono text-[0.56rem] tracking-[0.2em] uppercase text-[#6B6560] mb-2">
+                        Name *
                       </label>
                       <input
                         type="text"
-                        id="company"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleChange}
+                        disabled={status === "loading"}
+                        placeholder="Your name"
+                        className="w-full px-4 py-3 bg-[#F5F4F0] border border-[#D5D1CB] text-[#1A1614] text-sm placeholder:text-[#A09C97] focus:border-[#FE7F2D] focus:outline-none transition-colors disabled:opacity-50"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-mono text-[0.56rem] tracking-[0.2em] uppercase text-[#6B6560] mb-2">
+                        Email *
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        disabled={status === "loading"}
+                        placeholder="you@brand.com"
+                        className="w-full px-4 py-3 bg-[#F5F4F0] border border-[#D5D1CB] text-[#1A1614] text-sm placeholder:text-[#A09C97] focus:border-[#FE7F2D] focus:outline-none transition-colors disabled:opacity-50"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Website + Company */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-mono text-[0.56rem] tracking-[0.2em] uppercase text-[#6B6560] mb-2">
+                        Website / Instagram
+                      </label>
+                      <input
+                        type="text"
+                        name="website"
+                        value={formData.website}
+                        onChange={handleChange}
+                        disabled={status === "loading"}
+                        placeholder="yourbrand.com"
+                        className="w-full px-4 py-3 bg-[#F5F4F0] border border-[#D5D1CB] text-[#1A1614] text-sm placeholder:text-[#A09C97] focus:border-[#FE7F2D] focus:outline-none transition-colors disabled:opacity-50"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-mono text-[0.56rem] tracking-[0.2em] uppercase text-[#6B6560] mb-2">
+                        Brand / Company
+                      </label>
+                      <input
+                        type="text"
                         name="company"
                         value={formData.company}
                         onChange={handleChange}
                         disabled={status === "loading"}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all disabled:opacity-60"
-                        placeholder="Your company (optional)"
+                        placeholder="Your brand name"
+                        className="w-full px-4 py-3 bg-[#F5F4F0] border border-[#D5D1CB] text-[#1A1614] text-sm placeholder:text-[#A09C97] focus:border-[#FE7F2D] focus:outline-none transition-colors disabled:opacity-50"
                       />
                     </div>
+                  </div>
 
+                  {/* Budget */}
+                  <div>
+                    <label className="block font-mono text-[0.56rem] tracking-[0.2em] uppercase text-[#6B6560] mb-2">
+                      Monthly budget for creative *
+                    </label>
+                    <select
+                      name="budget"
+                      required
+                      value={formData.budget}
+                      onChange={handleChange}
+                      disabled={status === "loading"}
+                      className="w-full px-4 py-3 bg-[#F5F4F0] border border-[#D5D1CB] text-[#1A1614] text-sm focus:border-[#FE7F2D] focus:outline-none transition-colors disabled:opacity-50 appearance-none cursor-pointer"
+                    >
+                      <option value="">Select a range</option>
+                      {budgetOptions.map((o) => (
+                        <option key={o} value={o}>
+                          {o}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Products + Timeline */}
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label
-                        htmlFor="projectType"
-                        className="block text-sm font-medium text-gray-700 mb-2"
-                      >
-                        Project Type
+                      <label className="block font-mono text-[0.56rem] tracking-[0.2em] uppercase text-[#6B6560] mb-2">
+                        How many products?
                       </label>
                       <select
-                        id="projectType"
-                        name="projectType"
-                        value={formData.projectType}
+                        name="products"
+                        value={formData.products}
                         onChange={handleChange}
                         disabled={status === "loading"}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white disabled:opacity-60"
+                        className="w-full px-4 py-3 bg-[#F5F4F0] border border-[#D5D1CB] text-[#1A1614] text-sm focus:border-[#FE7F2D] focus:outline-none transition-colors disabled:opacity-50 appearance-none cursor-pointer"
                       >
-                        <option value="">Select a project type (optional)</option>
-                        {projectTypes.map((type) => (
-                          <option key={type} value={type}>
-                            {type}
+                        <option value="">Select range</option>
+                        {productOptions.map((o) => (
+                          <option key={o} value={o}>
+                            {o}
                           </option>
                         ))}
                       </select>
                     </div>
-
                     <div>
-                      <label
-                        htmlFor="message"
-                        className="block text-sm font-medium text-gray-700 mb-2"
-                      >
-                        Message *
+                      <label className="block font-mono text-[0.56rem] tracking-[0.2em] uppercase text-[#6B6560] mb-2">
+                        Timeline
                       </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        required
-                        rows={5}
-                        value={formData.message}
+                      <select
+                        name="timeline"
+                        value={formData.timeline}
                         onChange={handleChange}
                         disabled={status === "loading"}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all resize-none disabled:opacity-60"
-                        placeholder="Tell us about your project..."
-                      />
+                        className="w-full px-4 py-3 bg-[#F5F4F0] border border-[#D5D1CB] text-[#1A1614] text-sm focus:border-[#FE7F2D] focus:outline-none transition-colors disabled:opacity-50 appearance-none cursor-pointer"
+                      >
+                        <option value="">Select timeline</option>
+                        {timelineOptions.map((o) => (
+                          <option key={o} value={o}>
+                            {o}
+                          </option>
+                        ))}
+                      </select>
                     </div>
+                  </div>
 
-                    <button
-                      type="submit"
+                  {/* Project type */}
+                  <div>
+                    <label className="block font-mono text-[0.56rem] tracking-[0.2em] uppercase text-[#6B6560] mb-2">
+                      What do you need?
+                    </label>
+                    <select
+                      name="projectType"
+                      value={formData.projectType}
+                      onChange={handleChange}
                       disabled={status === "loading"}
-                      className="w-full flex items-center justify-center space-x-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors group disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="w-full px-4 py-3 bg-[#F5F4F0] border border-[#D5D1CB] text-[#1A1614] text-sm focus:border-[#FE7F2D] focus:outline-none transition-colors disabled:opacity-50 appearance-none cursor-pointer"
                     >
-                      {status === "loading" ? (
-                        <>
-                          <span>Sending...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Send Message</span>
-                          <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </>
-                      )}
-                    </button>
-                  </form>
-                )}
-              </div>
+                      {[
+                        "AI Furniture Photography",
+                        "Video Content",
+                        "Both Photography & Video",
+                        "Campaign Pack (Studio only)",
+                        "Not sure yet — need advice",
+                      ].map((o) => (
+                        <option key={o} value={o}>
+                          {o}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Current photography */}
+                  <div>
+                    <label className="block font-mono text-[0.56rem] tracking-[0.2em] uppercase text-[#6B6560] mb-2">
+                      Current photography setup
+                    </label>
+                    <select
+                      name="currentPhotography"
+                      value={formData.currentPhotography}
+                      onChange={handleChange}
+                      disabled={status === "loading"}
+                      className="w-full px-4 py-3 bg-[#F5F4F0] border border-[#D5D1CB] text-[#1A1614] text-sm focus:border-[#FE7F2D] focus:outline-none transition-colors disabled:opacity-50 appearance-none cursor-pointer"
+                    >
+                      <option value="">Select one</option>
+                      {[
+                        "We do it in-house",
+                        "We use a photographer / studio",
+                        "We use an agency",
+                        "We don't have any right now",
+                        "Other",
+                      ].map((o) => (
+                        <option key={o} value={o}>
+                          {o}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label className="block font-mono text-[0.56rem] tracking-[0.2em] uppercase text-[#6B6560] mb-2">
+                      Tell us about your project *
+                    </label>
+                    <textarea
+                      name="message"
+                      required
+                      rows={4}
+                      value={formData.message}
+                      onChange={handleChange}
+                      disabled={status === "loading"}
+                      placeholder="What's the project? What are you trying to achieve? Any references or specific needs?"
+                      className="w-full px-4 py-3 bg-[#F5F4F0] border border-[#D5D1CB] text-[#1A1614] text-sm placeholder:text-[#A09C97] focus:border-[#FE7F2D] focus:outline-none transition-colors resize-none disabled:opacity-50"
+                    />
+                  </div>
+
+                  {/* Where did you find us */}
+                  <div>
+                    <label className="block font-mono text-[0.56rem] tracking-[0.2em] uppercase text-[#6B6560] mb-2">
+                      How did you find us?
+                    </label>
+                    <select
+                      name="foundUs"
+                      value={formData.foundUs}
+                      onChange={handleChange}
+                      disabled={status === "loading"}
+                      className="w-full px-4 py-3 bg-[#F5F4F0] border border-[#D5D1CB] text-[#1A1614] text-sm focus:border-[#FE7F2D] focus:outline-none transition-colors disabled:opacity-50 appearance-none cursor-pointer"
+                    >
+                      <option value="">Select one</option>
+                      {foundUsOptions.map((o) => (
+                        <option key={o} value={o}>
+                          {o}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-[#FE7F2D] text-[#080808] font-mono text-[0.68rem] tracking-[0.2em] uppercase hover:bg-[#1A1614] hover:text-[#F5F4F0] transition-colors duration-300 disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+                  >
+                    {status === "loading" ? (
+                      <span>Sending...</span>
+                    ) : (
+                      <>
+                        <span>Send Brief</span>
+                        <Send className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
             </motion.div>
           </div>
         </div>
